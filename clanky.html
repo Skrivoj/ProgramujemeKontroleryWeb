@@ -41,14 +41,14 @@
         display: flex; 
         width: 100%; 
         height: 100%;        
-        padding-top: 25px;
+        padding-top: 45px;
     }
 
     .patka {
         position: relative; 
         max-width: 1400px; 
         margin: 0 auto; 
-        height: 35px;
+        height: 30px;
     }
     
     .patka-objekt {
@@ -57,13 +57,17 @@
         font-family: Georgia, 'Times New Roman', Times, serif; font-size: 12px;  
     }
 
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: left;}
+    .tlacitko   { width: 100%; height: 50px; text-align: center;}
+    .obrazek    { /*max-height: 100px; max-width: 1000px;*/}
+    .bunka-obr  { text-align:center; min-width: 100px;}
+
     p           {font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px}
     h2          {font-family: Georgia, 'Times New Roman', Times, serif; font-style: italic;}
 
     /*div {
         border: solid;
     }*/
-
     body {
         background-attachment: fixed; 
         background-image: linear-gradient(150deg, rgb(22, 228, 243), white, white);
@@ -79,6 +83,17 @@
         max-height: 100%; 
         min-width: 10%; 
         min-height: 10%;
+    }
+
+    button {
+        background-color: black; /* Green */
+        border: none;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 10px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
     }
 
     * {-moz-box-sizing: border-box; box-sizing: border-box; -moz-box-pack:center; -moz-box-align:center;} /* pocitani marginu a paddingu jako v Exploreru */
@@ -102,14 +117,15 @@
 
             <div class="obsah" >
                 <div style="width: 100%;">
-                    <p><b><u>Programujeme kontrolery</b></u><br/><br/>
-                
-                    Budoucí webová stránka o programování mikrokontrolerů (nejen) STM32 <br/><br/>
-            
-                    <b>Stránka ve výstavbě</b><br/><br/>
-              
-                    Kontakt:<br/>  
-                    Vojtěch Skřivánek - VojtechSkrivanek@seznam.cz</p> 
+                    <a href="prazdna_stranka.html"><button>Článek s velmi, velice, extrémně dlouhým názvem až se sem skoro nevejde</button></a><br><br>
+                    <a href="prazdna_stranka.html"><button>Článek</button></a><br><br>
+                    <a href="prazdna_stranka.html"><button>Článek</button></a><br><br>
+                    <a href="prazdna_stranka.html"><button>Článek</button></a><br><br>
+                    <a href="prazdna_stranka.html"><button>Článek</button></a><br><br>
+                    <a href="prazdna_stranka.html"><button>Článek</button></a><br><br>
+                    <a href="prazdna_stranka.html"><button>Článek</button></a><br><br>
+                    <a href="prazdna_stranka.html"><button>Článek</button></a><br><br>
+                    <a href="prazdna_stranka.html"><button>Článek</button></a><br><br>
                 </div>
             </div>    
         </div>
@@ -121,7 +137,7 @@
             <div class="patka-objekt">
                 <b>VojtechSkrivanek@seznam.cz</b>
             </div>
-            <div class="patka-objekt" style="text-align: right; ">
+            <div class="patka-objekt" style="text-align: right;">
                 <b>Počet návštěvníků: </b>
                 <img style="height: auto; width: 65px; vertical-align: middle;" src="https://www.webfreecounter.com/hit.php?id=genqxaa&nd=7&style=3" border="0">
             </div>

@@ -1,13 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Programujeme Kontrolery</title>
+    </head>
 
+    <style>
 
-<p style="padding-right: 5%;">
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam id dolor. Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Integer in sapien. Curabitur bibendum justo non orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Etiam sapien elit, consequat eget, tristique non, venenatis quis, ante. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+    .obal { 
+        position: relative;
+        text-align: center;
+        max-width: 1400px;
+        min-width: 700px;
+        min-height: 95vh;
+        margin: 0 auto;        
+        margin-bottom: -0px;
+    }
 
-Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Maecenas lorem. Nulla quis diam. In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Etiam dictum tincidunt diam. Mauris tincidunt sem sed arcu. Etiam bibendum elit eget erat. Fusce aliquam vestibulum ipsum. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Nullam sapien sem, ornare ac, nonummy non, lobortis a enim. Praesent in mauris eu tortor porttitor accumsan.
+    .hlavicka {
+        text-align: center;
+        margin:0 auto;
+    }
+    
+    .menu { 
+        text-align: center;
+        max-height: 100px;
+    }
+    
+    .menu-tlac {
+        max-width: 30%;
+        min-width: 100px;
+        display: inline-block;        
+        height: 100%;        
+        padding-left: 10%;
+    }
 
-Et harum quidem rerum facilis est et expedita distinctio. Nullam sit amet magna in magna gravida vehicula. Etiam commodo dui eget wisi. Integer malesuada. Nullam faucibus mi quis velit. Praesent vitae arcu tempor neque lacinia pretium. Nulla non arcu lacinia neque faucibus fringilla. Maecenas lorem. In convallis. In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. Aliquam erat volutpat. Nullam eget nisl. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna.
+    .obsah {
+        display: flex; 
+        width: 100%; 
+        height: 100%;
+        padding-top: 35px;
+    }
 
-Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. In enim a arcu imperdiet malesuada. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin sem purus in lacus. Fusce suscipit libero eget elit. Etiam sapien elit, consequat eget, tristique non, venenatis quis, ante. Ut tempus purus at lorem. Sed vel lectus. Donec odio tempus molestie, porttitor ut, iaculis quis, sem. Nunc tincidunt ante vitae massa. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Pellentesque arcu. Maecenas libero. Nullam sit amet magna in magna gravida vehicula.
+    .patka {
+        position: relative; 
+        max-width: 1400px; 
+        margin: 0 auto; 
+        height: 30px;
+    }
+    
+    .patka-objekt {
+        display: inline-block;
+        min-width: 33%;  
+        font-family: Georgia, 'Times New Roman', Times, serif; font-size: 12px;  
+    }
 
-In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. In rutrum. Duis bibendum, lectus ut viverra rhoncus, dolor nunc faucibus libero, eget facilisis enim ipsum id lacus. In enim a arcu imperdiet malesuada. Vivamus luctus egestas leo. Nullam feugiat, turpis at pulvinar vulputate, erat libero tristique tellus, nec bibendum odio risus sit amet ante. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Etiam quis quam. Praesent vitae arcu tempor neque lacinia pretium. Maecenas aliquet accumsan leo. Aliquam ante. Cras elementum. Duis ante orci, molestie vitae vehicula venenatis, tincidunt ac pede. Morbi leo mi, nonummy eget tristique non, rhoncus non leo. Maecenas ipsum velit, consectetuer eu lobortis ut, dictum at dui. Mauris metus. Duis condimentum augue id magna semper rutrum. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-</p>
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: left;}
+
+    p           {font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px}
+    h2          {font-family: Georgia, 'Times New Roman', Times, serif; font-style: italic;}
+
+    /*div {
+        border: solid;
+    }*/
+
+    body {
+        background-attachment: fixed; 
+        background-image: linear-gradient(150deg, rgb(22, 228, 243), white, white);
+    }
+
+    img {
+        width: 100%;
+    }
+
+    a {
+        cursor: pointer; 
+        max-width: 100%; 
+        max-height: 100%; 
+        min-width: 10%; 
+        min-height: 10%;
+    }
+
+    button {
+        background-color: black; /* Green */
+        border: none;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 10px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+
+    * {-moz-box-sizing: border-box; box-sizing: border-box; -moz-box-pack:center; -moz-box-align:center;} /* pocitani marginu a paddingu jako v Exploreru */
+    </style>
+
+    <body>
+        <div class="obal">
+            <div class="hlavicka"><img src="obrazky/obrazky/logo.png">
+            </div>
+            <div class="menu">
+                <div class="menu-tlac">
+                    <a href="index.html"><img src="obrazky/tlacitka/uvod.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="knihy.html"><img src="obrazky/tlacitka/knihy.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="clanky_obsah.html"><img src="obrazky/tlacitka/clanky.png"></a>
+                </div> 
+            </div>
+
+            <div class="obsah" >
+                <div style="padding-top: 30px;; width: 100%;">
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam id dolor. Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Integer in sapien. Curabitur bibendum justo non orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Etiam sapien elit, consequat eget, tristique non, venenatis quis, ante. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Maecenas lorem. Nulla quis diam. In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Etiam dictum tincidunt diam. Mauris tincidunt sem sed arcu. Etiam bibendum elit eget erat. Fusce aliquam vestibulum ipsum. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Nullam sapien sem, ornare ac, nonummy non, lobortis a enim. Praesent in mauris eu tortor porttitor accumsan. Et harum quidem rerum facilis est et expedita distinctio. Nullam sit amet magna in magna gravida vehicula. Etiam commodo dui eget wisi. Integer malesuada. Nullam faucibus mi quis velit. Praesent vitae arcu tempor neque lacinia pretium. Nulla non arcu lacinia neque faucibus fringilla. Maecenas lorem. In convallis. In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. Aliquam erat volutpat. Nullam eget nisl. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. In enim a arcu imperdiet malesuada. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin sem purus in lacus. Fusce suscipit libero eget elit. Etiam sapien elit, consequat eget, tristique non, venenatis quis, ante. Ut tempus purus at lorem. Sed vel lectus. Donec odio tempus molestie, porttitor ut, iaculis quis, sem. Nunc tincidunt ante vitae massa. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Pellentesque arcu. Maecenas libero. Nullam sit amet magna in magna gravida vehicula. In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. In rutrum. Duis bibendum, lectus ut viverra rhoncus, dolor nunc faucibus libero, eget facilisis enim ipsum id lacus. In enim a arcu imperdiet malesuada. Vivamus luctus egestas leo. Nullam feugiat, turpis at pulvinar vulputate, erat libero tristique tellus, nec bibendum odio risus sit amet ante. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Etiam quis quam. Praesent vitae arcu tempor neque lacinia pretium. Maecenas aliquet accumsan leo. Aliquam ante. Cras elementum. Duis ante orci, molestie vitae vehicula venenatis, tincidunt ac pede. Morbi leo mi, nonummy eget tristique non, rhoncus non leo. Maecenas ipsum velit, consectetuer eu lobortis ut, dictum at dui. Mauris metus. Duis condimentum augue id magna semper rutrum. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. 
+                </div>
+            </div>    
+        </div>
+
+        <div class="patka">
+            <div class="patka-objekt" style="text-align: left;">
+                <b>Autor: Vojtěch Skřivánek</b>
+            </div>
+            <div class="patka-objekt">
+                <b>VojtechSkrivanek@seznam.cz</b>
+            </div>
+            <div class="patka-objekt" style="text-align: right;">
+                <b>Počet návštěvníků: </b>
+                <img style="height: auto; width: 65px; vertical-align: middle;" src="https://www.webfreecounter.com/hit.php?id=genqxaa&nd=7&style=3" border="0">
+            </div>
+        </div>
+        
+    </body>
+</html>

@@ -40,15 +40,15 @@
     .obsah {
         display: flex; 
         width: 100%; 
-        height: 100%;        
-        padding-top: 25px;
+        height: 100%;
+        padding-top: 35px;
     }
 
     .patka {
         position: relative; 
         max-width: 1400px; 
         margin: 0 auto; 
-        height: 35px;
+        height: 30px;
     }
     
     .patka-objekt {
@@ -57,6 +57,10 @@
         font-family: Georgia, 'Times New Roman', Times, serif; font-size: 12px;  
     }
 
+
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%;}
+    .tlacitko   { max-width: 45%; min-width: 100px; display: inline-block; padding-left: 10%; text-align: center;}
+    
     p           {font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px}
     h2          {font-family: Georgia, 'Times New Roman', Times, serif; font-style: italic;}
 
@@ -86,30 +90,45 @@
 
     <body>
         <div class="obal">
-            <div class="hlavicka"><img src="obrazky/obrazky/logo.png">
+            <div class="hlavicka"><img src="../obrazky/obrazky/logo.png">
             </div>
             <div class="menu">
                 <div class="menu-tlac">
-                    <a href="index.html"><img src="obrazky/tlacitka/uvod.png"></a>
+                    <a href="../index.html"><img src="../obrazky/tlacitka/uvod.png"></a>
                 </div>
                 <div class="menu-tlac">
-                    <a href="knihy.html"><img src="obrazky/tlacitka/knihy.png"></a>
+                    <a href="../knihy.html"><img src="../obrazky/tlacitka/knihy.png"></a>
                 </div>
                 <div class="menu-tlac">
-                    <a href="clanky.html"><img src="obrazky/tlacitka/clanky.png"></a>
+                    <a href="../clanky.html"><img src="../obrazky/tlacitka/clanky.png"></a>
                 </div> 
             </div>
 
             <div class="obsah" >
                 <div style="width: 100%;">
-                    <p><b><u>Programujeme kontrolery</b></u><br/><br/>
-                
-                    Budoucí webová stránka o programování mikrokontrolerů (nejen) STM32 <br/><br/>
-            
-                    <b>Stránka ve výstavbě</b><br/><br/>
-              
-                    Kontakt:<br/>  
-                    Vojtěch Skřivánek - VojtechSkrivanek@seznam.cz</p> 
+                    <table height=100% width=100%>
+                        <tr>
+                            <td width=33% style="text-align:right">
+                                <img style="max-width:350px" style="padding-left: 10%; padding-right: 10px;" src="../obrazky/obrazky/obalka1.PNG">
+                            </td>     
+                            <td>
+                                <div class="text">
+                                    <h2>
+                                        Programujeme STM32: zdolejte jednočipy profesionálů (brzy k dostání)</h2>
+                                    <p>
+                                        Bližší popis knihy</p>
+                                    <p>
+                                        Odkazy k prodejcům</p>
+                                </div>
+                                <div class="tlacitko" >
+                                    <a href="../dokumenty/ProgramujemeSTM32_ukazka.pdf" download><img style="scale:80%" src="../obrazky/tlacitka/ukazka.png"></a>
+                                </div>
+                                <div class="tlacitko" style="padding-top: 50px;">
+                                    <a href="../knihy.html"> <img style="scale:80%" src="../obrazky/tlacitka/zpet.png"></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>    
         </div>
@@ -121,7 +140,7 @@
             <div class="patka-objekt">
                 <b>VojtechSkrivanek@seznam.cz</b>
             </div>
-            <div class="patka-objekt" style="text-align: right; ">
+            <div class="patka-objekt" style="text-align: right;">
                 <b>Počet návštěvníků: </b>
                 <img style="height: auto; width: 65px; vertical-align: middle;" src="https://www.webfreecounter.com/hit.php?id=genqxaa&nd=7&style=3" border="0">
             </div>

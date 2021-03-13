@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Programujeme Kontrolery</title>
+    </head>
+
+    <style>
+
+    .obal { 
+        position: relative;
+        text-align: center;
+        max-width: 1400px;
+        min-width: 700px;
+        min-height: 98vh;
+        margin: 0 auto;        
+        margin-bottom: -0px;
+    }
+
+    .hlavicka {
+        text-align: center;
+        margin:0 auto;
+    }
+    
+    .menu { 
+        text-align: center;
+        max-height: 100px;
+    }
+    
+    .menu-tlac {
+        max-width: 30%;
+        min-width: 100px;
+        display: inline-block;        
+        height: 100%;        
+        padding-left: 10%;
+    }
+
+    .obsah {
+        display: flex; 
+        width: 100%; 
+        height: 100%;
+        padding-top: 25px;
+    }
+
+    .patka {
+        position: relative; 
+        max-width: 1400px; 
+        margin: 0 auto; 
+        height: 30px;
+    }
+    
+    .patka-objekt {
+        display: inline-block;
+        min-width: 33%;  
+        font-family: Georgia, 'Times New Roman', Times, serif; font-size: 12px;  
+    }
+
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: left;}
+    .tlacitko   { width: 100%; height: 50px; text-align: center;}
+    .obrazek    { /*max-height: 100px; max-width: 1000px;*/}
+    .bunka-obr  { text-align:center; min-width: 100px;}
+
+    p           {font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px}
+    h2          {font-family: Georgia, 'Times New Roman', Times, serif; font-style: italic;}
+
+    /*div {
+        border: solid;
+    }*/
+    body {
+        background-attachment: fixed; 
+        background-image: linear-gradient(150deg, rgb(22, 228, 243), white, white);
+    }
+
+    img {
+        width: 100%;
+    }
+
+    a {
+        cursor: pointer; 
+        max-width: 100%; 
+        max-height: 100%; 
+        min-width: 10%; 
+        min-height: 10%;
+    }
+
+    * {-moz-box-sizing: border-box; box-sizing: border-box; -moz-box-pack:center; -moz-box-align:center;} /* pocitani marginu a paddingu jako v Exploreru */
+    </style>
+
+    <body>
+        <div class="obal">
+            <div class="hlavicka"><img src="obrazky/obrazky/logo.png">
+            </div>
+            <div class="menu">
+                <div class="menu-tlac">
+                    <a href="index.html"><img src="obrazky/tlacitka/uvod.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="knihy.html"><img src="obrazky/tlacitka/knihy.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="clanky.html"><img src="obrazky/tlacitka/clanky.png"></a>
+                </div> 
+            </div>
+
+            <div class="obsah" >
+                <table>
+                    <tr>
+                        <td class="bunka-obr">
+                            <img class="obrazek" src="obrazky/obrazky/programujestm32.png">
+                        </td>     
+                        <td>
+                            <div class="text">
+                                <h2>
+                                    Programujeme STM32: zdolejte jednočipy profesionálů (brzy k dostání)</h2>
+                                <p>
+                                    <b>Láká Vás programování mikrokontrolerů, ale nevíte, jak začít?</b></p>
+                                <p>
+                                    <b>Programujete jednoduché osmibitové kontrolery a chcete přejít ke komplexním profesionálním kontrolerům?</b></p>
+                                <p> 
+                                    Pak právě Vy oceníte informace v této knize! Tato kniha je určená především pro úplné začátečníky v oblastni programování mikrokontrolerů, kteří chtějí přeskočit obtížné začátky, vyhnout se slepým uličkám, a začít rovnou s produkty, které využívají profesionální vývojáři. V knize se dozvíte, jaké základní periferie obsahují kontrolery STM32, jak tyto periferie obecně fungují, a jak je snadno využívat pomocí oficiálních knihoven</p>
+                 
+                                <p>
+                                    Kniha je také vhodná pro ty, kteří již mají zkušenosti s jinými kontrolery (8bitové, jednodušší nebo od jiného výrobce), ale rádi by přešli k 32bitovým kontrolerům firmy STM.</p>
+                            </div>
+                            <div class="tlacitko">
+                                <a href="knihy/zdolejte_jednocipy_profesionalu.html"> <img style="min-width: 150px; max-width: 15%" src="obrazky/tlacitka/tlacitko_knihy.png"></a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bunka-obr">
+                            <img class="obrazek" src="obrazky/obrazky/bezknihoven.png">
+                        </td>     
+                        <td>
+                            <div class="text">
+                                <h2>
+                                    Kniha právě vzniká</h2>
+                                <p>
+                                    <b>Umíte programovat kontrolery STM32 pomocí knihoven, ale chcete proniknout hlouběji?</b></p>
+                                <p>
+                                    <b>Chcete umět vytvořit optimalizovaný, efektivní a rychlý kód?</b>
+                                </p>
+                                <p>
+                                    Tato kniha je určena programátorům kontrolerů STM32, kteří využívají knihovny a rádi by viděli pod jejich povrch. V knize se dozvíte, jak jsou v mikrokontroleru STM32 jednotlivé základní periferie implementovány. Oprostíte se od objemných a pomalých knihoven a naučíte se sami nastavovat, řídit a obsluhovat periferie. Výsledkem Vaší práce bude nejen lepší pochopení jejich funkce, ale především optimální kód.
+                                </p>
+                            </div>
+                            <div class="tlacitko">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bunka-obr" >
+                            <img class="obrazek" style="scale: 80%;" src="obrazky/obrazky/lowpower.png">
+                        </td>     
+                        <td>
+                            <div class="text">
+                                <h2>
+                                    Kniha právě vzniká</h2>
+                                <p>
+                                    <b>Je Vaše zařížení napájeno z baterií?</b></p>
+                                <p>
+                                    <b>Chcete umět vytvořit energeticky úsporný program?</b>
+                                </p>
+                                <p>
+                                    Tato kniha je určena programátorům kontrolerů STM32, jejichž zařízení má fungovat co možná nejúsporněji. V knize se dozvíte, jaké prostředky kontroler nabízí k tomu, aby odebíral z baterie co nejméně energie. Zjistíte, jaká nastavení kontroleru jsou vhodná z hlediska energetické náročnosti. Poznáte úsporné režimy a periferie kontrolery a zjistíte, jak s nimi v praxi pracovat.
+                                </p>
+                            </div>
+                            <div class="tlacitko">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bunka-obr">
+                            <img class="obrazek" style="scale: 80%;" src="obrazky/obrazky/freertos.png">
+                        </td>     
+                        <td>
+                            <div class="text">
+                                <h2>
+                                    Kniha právě vzniká</h2>
+                                <p>
+                                    <b>Obsahuje Váš program velké množství procesů?</b></p>
+                                <p>
+                                    <b>Potřebujete, aby tyto procesy probíhaly paralelně či synchronně?</b>
+                                </p>
+                                <p>
+                                    Tato kniha je určena programátorům kontrolerů, kteří tvoří rozsáhlé programy obsahující mnoho procesů. V knize objevíte způsob, jak je pomocí operačního systému možné tyto procesy vykonávat semi-paralelně. Naučíte se používat nástroje umožňující procesy periodicky spouštět, synchronizovat nebo mezi těmito procesy předávat data.
+                                </p>
+                            </div>
+                            <div class="tlacitko">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>    
+        </div>
+
+        <div class="patka">
+            <div class="patka-objekt" style="text-align: left;">
+                <b>Autor: Vojtěch Skřivánek</b>
+            </div>
+            <div class="patka-objekt">
+                <b>VojtechSkrivanek@seznam.cz</b>
+            </div>
+            <div class="patka-objekt" style="text-align: right;">
+                <b>Počet návštěvníků: </b>
+                <img style="height: auto; width: 65px; vertical-align: middle;" src="https://www.webfreecounter.com/hit.php?id=genqxaa&nd=7&style=3" border="0">
+            </div>
+        </div>
+        
+    </body>
+</html>
