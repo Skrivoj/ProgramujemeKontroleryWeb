@@ -350,23 +350,16 @@ void TIM_start()
                         </code>
                     </pre>
 
-                    <p>
+                    <p><b><u>Tvorba programu</u></b></p>
+                    
+                    <p>Tento program má velké množství inicializací a funkcí. Je to způsobeno tím, že na jednom úkolu automaticky spolupracuje celkem 5 periferií – UART2, DAC2, DMA4, DMA5 a TIM2.</p>
 
-                    </p>
-                    [u][b]Tvorba programu[/b][/u]
-                    Tento program má velké množství inicializací a funkcí. Je to způsobeno tím, že na jednom úkolu automaticky spolupracuje celkem 5 periferií – UART2, DAC2, DMA4, DMA5 a TIM2.
-                    <p>
+                    <p>Na začátku programu si předdefinujeme pole s pěti 8bitovými prvky. Ty inicializujeme tak, abychom viděli změny jasu LED. Poté už jenom postupně voláme inicializace jednotlivých periferií a následně je spouštíme.</p>
 
-                    </p>
-                    Na začátku programu si předdefinujeme pole s pěti 8bitovými prvky. Ty inicializujeme tak, abychom viděli změny jasu LED. Poté už jenom postupně voláme inicializace jednotlivých periferií a následně je spouštíme.
-                    <p>
+                    <p>Po spuštění časovače dojde při každém jeho přetečení k přenosu dat z datového pole do datového registru DAC pomocí čtvrtého kanálu DMA. DAC hodnotu převede na analogový signál. DMA inkrementuje zdrojovou adresu dat a čeká na další přetečení časovače. Toto se stále opakuje.</p>
 
-                    </p>
-                    Po spuštění časovače dojde při každém jeho přetečení k přenosu dat z datového pole do datového registru DAC pomocí čtvrtého kanálu DMA. DAC hodnotu převede na analogový signál. DMA inkrementuje zdrojovou adresu dat a čeká na další přetečení časovače. Toto se stále opakuje.
                     <p>
-
-                    </p>
-                    Pátý kanál DMA čeká, až UART přijme data. Když se tak stane, přenese je do datového pole a inkrementuje cílovou adresu přenosu.
+                    Pátý kanál DMA čeká, až UART přijme data. Když se tak stane, přenese je do datového pole a inkrementuje cílovou adresu přenosu.</p>
 
                     <pre>
                         <code>
