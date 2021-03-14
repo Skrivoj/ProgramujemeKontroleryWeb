@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Programujeme Kontrolery</title>
+    </head>
+
+    <style>
+
+    .obal { 
+        position: relative;
+        text-align: center;
+        max-width: 1400px;
+        min-width: 300px;
+        min-height: 95vh;
+        margin: 0 auto;        
+        margin-bottom: -0px;
+    }
+
+    .hlavicka {
+        text-align: center;
+        margin:0 auto;
+    }
+    
+    .menu { 
+        text-align: center;
+        max-height: 100px;
+    }
+    
+    .menu-tlac {
+        max-width: 30%;
+        min-width: 100px;
+        display: inline-block;        
+        height: 100%;        
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .obsah {
+        display: flex; 
+        width: 100%; 
+        height: 100%;        
+        padding-top: 45px;
+    }
+
+    .patka {
+        position: relative; 
+        max-width: 1400px; 
+        margin: 0 auto; 
+        height: 30px;
+    }
+    
+    .patka-objekt {
+        display: inline-block;
+        min-width: 33%;  
+        font-family: Georgia, 'Times New Roman', Times, serif; font-size: 12px;  
+    }
+
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: justify; padding-bottom: 20px;}
+    .tlacitko   { max-width: 300px; text-align: center; margin: auto; padding-top: 15px; padding-bottom: 15px;}
+    .obrazek    { margin: auto;}
+    .bunka-obr  { text-align:center; min-width: 100px;}
+
+    p           {font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px}
+    h2          {font-family: Georgia, 'Times New Roman', Times, serif; font-style: italic;}
+
+    /*div {
+        border: solid;
+    }*/
+    
+    body {
+        background-attachment: fixed; 
+        background-image: linear-gradient(150deg, rgb(22, 228, 243), white, white);
+    }
+
+    img {
+        width: 100%;
+    }
+
+    a {
+        cursor: pointer; 
+        max-width: 100%; 
+        max-height: 100%; 
+        min-width: 10%; 
+        min-height: 10%;
+    }
+
+    button {
+        background-color: black; /* Green */
+        border: none;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 10px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+
+    * {-moz-box-sizing: border-box; box-sizing: border-box; -moz-box-pack:center; -moz-box-align:center;} /* pocitani marginu a paddingu jako v Exploreru */
+    </style>
+
+    <body>
+        <div class="obal">
+            <div class="hlavicka"><img src="../../obrazky/obrazky/logo.png">
+            </div>
+            <div class="menu">
+                <div class="menu-tlac">
+                    <a href="../../index.html"><img src="../../obrazky/tlacitka/uvod.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="../../knihy.html"><img src="../../obrazky/tlacitka/knihy.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="../../clanky.html"><img src="../../obrazky/tlacitka/clanky.png"></a>
+                </div> 
+            </div>
+
+            <div class="obsah" >
+                <div class="text" style="width: 100%;">
+
+                    <h2 align="center">
+                        STM32L073RZ - Kooperace DMA+TIM+DAC+UART - Bez knihoven
+                    </h2>
+
+                    <p>Tento návod je určený pro mírně pokročilé uživatele kontrolerů STM32. Ukáže, jak nastavit různé periferie tak, aby spolupracovaly, a to bez použití knihovních funkcí. Díky tomu je program znatelně menší.</p>
+
+                    <p>Program bude pomocí komunikace UART přijímat data, která budou automaticky přenášena do pole, jež bude použito ke generování analogového signálu pomocí DAC. Převod DAC bude řízen časovačem, bude k němu docházet každých 500 ms a data z pole budou přenášena opět DMA obvodem.</p>
+
+                    <p>Tento návod používá vývojovou desku NUCLEO-L073RZ. Nastavení jsou však shodná pro většinu kontrolerů rodiny STM32L0xx. V návodu nejprve představíme a vytvoříme inicializační funkce periferií. Poté vytvoříme jejich užitné funkce. Nakonec je spojíme v hlavním programu, aby se kontroler choval dle zadání v úvodu článku.</p>
+
+                    <p><u><b>Nastavení periferií</b></u></p>
+
+                    <p><b>UART</b></p>
+
+                    <p>Nastavení komunikace UART se skládá t několika částí. V první části musíme inicializovat GPIO piny. Zapneme periferii GPIOA. Jelikož ale bude UART pracovat pouze jako přijímač, nastavíme pouze jeden do pin do alternativního režimu použití pro UART.</p>
+
+                    <p>Dále nastavíme samotný UART. Spustíme mu hodinový signál, nastavíme děličku přenosové rychlosti, aktivujeme funkci DMA a zapneme periferii pouze pro příjem dat.</p>
+
+                    <pre>
+                        <code>
+void UART_init_DMA()
+{
+    // zapne hodinovy signal pro port A
+    RCC->IOPENR |= RCC_IOPENR_IOPAEN;
+
+    // vynuluje nastaveni rezimu PA3 (vstupni rezim)
+    GPIOA->MODER &= ~GPIO_MODER_MODE3;
+
+    // nastavi  PA3 do alternativniho rezimu
+    GPIOA->MODER |= GPIO_MODER_MODE3_1;
+
+    // nastavi pinu PA3 alternativni rezim 4 - UART
+    GPIOA->AFR[0] |= (4U << GPIO_AFRL_AFSEL3_Pos);
+
+    // zapne hodinovy signal pro USART2
+    RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
+
+    // 2,097 MHz / 218 = 9619 Baud
+    USART2->BRR = 218U;
+
+    // povoli vyuziti DMA pri prijmu
+    USART2->CR3 |= USART_CR3_DMAR;
+
+    // povoli USART a prijmani dat
+    USART2->CR1 |= (USART_CR1_UE | USART_CR1_RE);
+}
+                        </code>
+                    </pre>
+
+                    <p><b>DMA5</b></p>
+
+                    <p>Pro přenos dat z přijímacího datového registru periferie UART2 do datového pole budeme používat pátý kanál DMA.</p>
+
+                    <p>Inicializace pátého kanálu DMA začíná spuštěním hodinového signálu periferie. Poté nastavíme, aby DMA inkrementovalo adresu cílové paměti po každém přenosu dat. Zapneme cirkulární režim, čímž docílíme, že po přenosu určeného počtu dat DMA začne přenášet opět od nastavené počáteční adresy cílové paměti.</p>
+
+                    <p>Dále jako zdrojovou adresu dat periferie (ta nebude inkrementována) nastavíme adresu přijímacího datového registru periferie UART2.</p>
+
+                    <p>V posledním kroku nastavíme spouštěč přenosu dat pátým kanálem DMA. Nastavíme jím právě příjem dat pomocí UART2. Konkrétní číslo spouštěče je možné dohledat v dokumentaci.</p>
+
+                    <div class="obrazek" style="max-width: 700px;">
+                        <img src="Clanek_1/obrazky/obr1.png"/>
+                    </div>
+                    
+
+                    <p>Z úryvku tabulky je vidět, že pro stejnou funkci nejdou použít všechny kanály DMA, ale pouze některé (například také kanál 6).</p>
+
+                    <p>Tímto je inicializace kompletní.</p>
+                    
+                    <pre>
+                        <code>
+void DMA5_init_UART()
+{
+    // zapne hodinovy signal pro DMA
+    RCC->AHBENR |= RCC_AHBENR_DMAEN;
+
+    // nastavi DMA kanalu 5 inkremetaci adresy pameti a cirkularni rezim
+    DMA1_Channel5->CCR |= (DMA_CCR_MINC | DMA_CCR_CIRC);
+
+    // nastavi zdrojovou adresu dat prijmaci registr USART2
+    DMA1_Channel5->CPAR = &(USART2->RDR);
+
+    // nastavi DMA kanalu 5 spoustec prijem po USART2
+    DMA1_CSELR->CSELR |= (4U << DMA_CSELR_C5S_Pos);
+}
+                        </code>
+                    </pre>
+
+                    <p><b>DAC</b></p>
+
+                    <p>Nastavení DAC2 je jednoduché. Nastavíme pin PA5, na němž je připojena LED, do analogového režimu. V řídicím registru povolíme využití DMA a použití spouštěče. Dále pomocí skupiny bitů TSEL2 zvolíme zdrojem spouštění časovač 2.</p>
+                    
+                    <div class="obrazek" style="max-width: 500px;">
+                        <img src="Clanek_1/obrazky/obr2.png"/>
+                    </div>
+                    
+                    <p>A nakonec nezapomeneme spustit chod celé periferie.</p>
+
+                    <pre>
+                        <code>
+void DAC_init_DMA_TIM()
+{
+    // zapne hodinovy signal pro port A
+    RCC->IOPENR |= RCC_IOPENR_IOPAEN;
+
+    // nastavi PA5 do analogoveho rezimu
+    GPIOA->MODER |= GPIO_MODER_MODE5;
+
+    // zapne hodinovy signal pro DAC
+    RCC->APB1ENR |= RCC_APB1ENR_DACEN;
+
+    // nastavi DAC2 spousteni pretecenim TIM2, vyuziti DMA,
+    // reakci na spoustec (ne SW) a zapne jej
+    DAC->CR |= (DAC_CR_DMAEN2 | DAC_CR_TSEL2_2 | DAC_CR_TEN2 | DAC_CR_EN2);
+}
+                        </code>
+                    </pre>
+
+                    <p><b>DMA4</b></p>
+
+                    <p>Pro přenos dat z datového pole do datového registru DAC2 budeme používat čtvrtý kanál DMA.</p>
+                    
+
+                    <p>Oproti nastavení pátého kanálu se liší pouze v nastavení směru přenosu dat a samozřejmě cílovou adresou. To je adresa datového registru DAC2 pro převod 8bitových hodnot zarovnaných vpravo.
+                    </p>
+                    
+                    <p>Ve stejné tabulce, jako u nastavení pátého kanálu zjistíme, jaké číslo zdroje spouštěče přenosu nastavit.</p>
+                    
+                    <pre>
+                        <code>
+void DMA4_init_DAC()
+{
+    // zapne hodinovy signal pro DMA
+    RCC->AHBENR |= RCC_AHBENR_DMAEN;
+
+    // nastavi DMA kanalu 4 inkremetaci adresy pameti,
+    // cirkularni rezim a smer prenosu z pameti do periferie
+    DMA1_Channel4->CCR |= (DMA_CCR_MINC | DMA_CCR_DIR | DMA_CCR_CIRC);
+
+    // nastavi cilovou adresou dat adresu
+    // registru pro prevod 8bitovych dat DAC2
+    DMA1_Channel4->CPAR = &(DAC->DHR8R2);
+
+    // nastavi DMA kanalu 4 spoustec DAC kanal 2
+    DMA1_CSELR->CSELR |= (15U << DMA_CSELR_C4S_Pos);
+}
+                        </code>
+                    </pre>
+
+                    <p><b>TIM</b></p>
+
+                    <p>Časovač 2 slouží ke spouštění převodu DAC2. Jeho nastavení způsobí přetečení dvakrát za sekundu. Při přetečení dojde k tzv. „update“ události, na kterou reaguje DAC2.</p>
+
+                    <pre>
+                        <code>
+void TIM_init_Udalost()
+{
+    // zapne hodinovy signal pro TIM2
+    RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+
+    // nastavi delicku pro TIM2 (2,097 MHz / 2097 = 1 KHz)
+    TIM2->PSC = 2096U;
+
+    // nastavi autoreload registr pro TIM2 (1 KHz / 500 = 2 Hz)
+    TIM2->ARR = 499U;
+
+    // nastavi udpate udalost pri preteceni
+    TIM2->CR2 |= TIM_CR2_MMS_1;
+}
+                        </code>
+                    </pre>
+
+                    <p><u><b>Funkce periferií</b></u></p>
+
+                    <p><b>DMA5 - start</b></p>
+
+                    <p> Jednoduchá funkce, která nastaví cílovou adresu a počet dat pro přenos z periferie UART2 do cílového datového pole. Povolením pátého kanálu DMA se spustí přenos. Jelikož je kanál spouštěn žádostí o přenos při přijmu dat periferie UART2, DMA s přenosem čeká, až o něj UART2 požádá.</p>                  
+
+                    <pre>
+                        <code>
+void DMA5_start(void* Data, uint8_t delka)
+{
+    // nastavi pocet dat k prenosu
+    DMA1_Channel5->CNDTR = delka;
+
+    // nastavi cilovou adresu dat
+    DMA1_Channel5->CMAR = Data;
+
+    // spusti prenos
+    DMA1_Channel5->CCR |= DMA_CCR_EN;
+}
+                        </code>
+                    </pre>
+
+                    <p><b>DMA4 - start</b></p>
+
+                    <p>Tato funkce je svojí implementací totožná s předchozí.</p>
+
+                    <pre>
+                        <code>
+void DMA4_start(void* Data, uint8_t delka)
+{
+    // nastavi pocet dat k prenosu
+    DMA1_Channel4->CNDTR = delka;
+
+    // nastavi zdrojovou adresu dat
+    DMA1_Channel4->CMAR = Data;
+
+    // spusti prenos
+    DMA1_Channel4->CCR |= DMA_CCR_EN;
+}
+                        </code>
+                    </pre>
+
+                    <p><b>TIM - start</b></p>
+
+                    <p>
+                        Tato funkce pouze zapne periferii časovače 2.
+                    </p>
+                    
+
+                    <pre>
+                        <code>
+void TIM_start()
+{
+    // zapne TIM2
+    TIM2->CR1 |= TIM_CR1_CEN;
+}
+                        </code>
+                    </pre>
+
+                    <p>
+
+                    </p>
+                    [u][b]Tvorba programu[/b][/u]
+                    Tento program má velké množství inicializací a funkcí. Je to způsobeno tím, že na jednom úkolu automaticky spolupracuje celkem 5 periferií – UART2, DAC2, DMA4, DMA5 a TIM2.
+                    <p>
+
+                    </p>
+                    Na začátku programu si předdefinujeme pole s pěti 8bitovými prvky. Ty inicializujeme tak, abychom viděli změny jasu LED. Poté už jenom postupně voláme inicializace jednotlivých periferií a následně je spouštíme.
+                    <p>
+
+                    </p>
+                    Po spuštění časovače dojde při každém jeho přetečení k přenosu dat z datového pole do datového registru DAC pomocí čtvrtého kanálu DMA. DAC hodnotu převede na analogový signál. DMA inkrementuje zdrojovou adresu dat a čeká na další přetečení časovače. Toto se stále opakuje.
+                    <p>
+
+                    </p>
+                    Pátý kanál DMA čeká, až UART přijme data. Když se tak stane, přenese je do datového pole a inkrementuje cílovou adresu přenosu.
+
+                    <pre>
+                        <code>
+int main(void)
+{
+    volatile uint8_t Data[5] = {0, 150, 165, 190, 250};
+
+    UART_init_DMA();
+
+    DMA5_init_UART();
+
+    DAC_init_DMA_TIM();
+
+    DMA4_init_DAC(Data, sizeof(Data));
+
+    TIM_init_Udalost();
+
+    DMA5_start(Data, sizeof(Data));
+
+    DMA4_start(Data, sizeof(Data));
+
+    TIM_start();
+
+    while(1);
+}
+                        </code>
+                    </pre>
+
+                    <p>Po překladu, nahrání a puštění programu vidíme, jak LED dvakrát za sekundu změní svůj jas. Pokud z PC pošleme do kontroleru jakoukoliv 8bitovou hodnotu, bude jí nahrazen první prvek v poli dat, které je zdrojem dat pro DAC2. Další hodnota nahradí druhý prvek a tak dále. (Šestá hodnota nahradí opět první prvek.)</p>
+
+                    <p>Toho všeho je dosaženo bez jakéhokoliv přerušení či kódu v nekonečné smyčce.</p>
+
+                    <p><u><b>Porovnání</b></u></p>
+
+                    <p>Jak již bylo zmíněno, využívá tento ukázkový program relativně dost periferií. Z toho samozřejmě vyplývá, že použití knihoven zabere mnoho paměťového prostoru. Úspora jejich eliminací je značná.</p>
+
+                    <div class="obrazek" style="max-width: 600px;">
+                        <img src="Clanek_1/obrazky/obr3.png"/>
+                    </div>
+
+                    <p>Doufám, že tento příklad ukázal, že i bez oficiálních knihovních funkcí není složité používat periferie kontrolerů STM32.</p>
+
+                    <div class="tlacitko" >
+                        <a href="Clanek_1/Clanek1.rar" download><button>Projekt pro STM32CubeIDE</button></a>
+                    </div>
+
+                    <div class="tlacitko" style="max-width: 175px;">
+                        <a href="../clanky.html"> <img style="scale:80%" src="../obrazky/tlacitka/zpet.png"></a>
+                    </div>
+                </div>
+            </div>    
+        </div>
+
+        <div class="patka">
+            <div class="patka-objekt" style="text-align: left;">
+                <b>Autor: Vojtěch Skřivánek</b>
+            </div>
+            <div class="patka-objekt" style="text-align: center;">
+                <b>Kontakt: VojtechSkrivanek@seznam.cz</b>
+            </div>
+            <div class="patka-objekt" style="text-align: right;">
+                <b>Počet návštěvníků: </b>
+                <img style="height: auto; width: 65px; vertical-align: middle;" src="https://www.webfreecounter.com/hit.php?id=genqxaa&nd=7&style=3" border="0">
+            </div>
+        </div>
+        
+    </body>
+</html>
