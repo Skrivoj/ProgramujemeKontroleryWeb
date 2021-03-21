@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Programujeme Kontrolery</title>
+    </head>
+
+    <style>
+
+    .obal { 
+        position: relative;
+        text-align: center;
+        max-width: 1200px;
+        min-width: 300px;
+        min-height: 95vh;
+        margin: 0 auto;        
+        margin-bottom: -0px;
+    }
+
+    .hlavicka {
+        text-align: center;
+        margin:0 auto;
+    }
+    
+    .menu { 
+        text-align: center;
+        max-height: 100px;
+    }
+    
+    .menu-tlac {
+        max-width: 30%;
+        min-width: 100px;
+        display: inline-block;        
+        height: 100%;        
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .obsah {
+        display: flex; 
+        min-width: 300px;
+        max-width: 1000px;
+        margin: auto;       
+        padding-top: 45px;
+    }
+
+    .patka {
+        position: relative; 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        height: 30px;
+    }
+    
+    .patka-objekt {
+        display: inline-block;
+        min-width: 48%;  
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;  
+    }
+
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: justify; padding-bottom: 20px; min-width: 300px;}
+    .tlacitko   { max-width: 300px; text-align: center; margin: auto; padding-top: 15px; padding-bottom: 15px;}
+    .obrazek    { margin: auto; min-width: 300px;}
+    .bunka-obr  { text-align:center; min-width: 100px;}
+
+    p           {font-family: Arial, Helvetica, sans-serif; font-size: 16px}
+    h2          {font-family: Arial, Helvetica, sans-serif; font-style: italic;}
+    h3          {font-family: Arial, Helvetica, sans-serif; text-decoration: underline; font-style: italic;  font-weight: bold;}
+
+    /*div {
+        border: solid;
+    }*/
+    
+    body {
+        background-attachment: fixed; 
+        background-image: linear-gradient(150deg, rgb(22, 228, 243), white, white);
+    }
+
+    img {
+        width: 100%;
+    }
+
+    a {
+        cursor: pointer; 
+        max-width: 100%; 
+        max-height: 100%; 
+        min-width: 10%; 
+        min-height: 10%;
+    }
+
+    button {
+        background-color: black; /* Green */
+        border: none;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 10px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+
+    pre {
+        overflow: auto;
+    }
+
+    * {-moz-box-sizing: border-box; box-sizing: border-box; -moz-box-pack:center; -moz-box-align:center;} /* pocitani marginu a paddingu jako v Exploreru */
+    </style>
+
+    <body>
+        <div class="obal">
+            <div class="hlavicka"><img src="../../obrazky/obrazky/logo.png">
+            </div>
+            <div class="menu">
+                <div class="menu-tlac">
+                    <a href="../../index.html"><img src="../../obrazky/tlacitka/uvod.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="../../knihy.html"><img src="../../obrazky/tlacitka/knihy.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="../../clanky.html"><img src="../../obrazky/tlacitka/clanky.png"></a>
+                </div> 
+            </div>
+
+            <div class="obsah" >
+                <div class="text">
+
+                    <h2 align="center">
+                        FreeRTOS - použití a nástrahy časovačů
+                    </h2>
+
+                    <p>Tento návod je určený pro mírně pokročilé uživatele operačního systému pro mikrokrokontrolery FreeRTOS. Příklad pracuje s kontrolerem STM32L073RZ a vývojovým prostředím STM32CubeIDE.</p>
+
+                    <p>Tento příklad ukáže, jakým způsobem spustit, zastavit či resetovat časovače. Dále uvidíme, jak nevyzpytatelně se časovače mohou chovat, když je s nimi špatně zacházeno. </p>
+                    
+                    <p>Program bude každou sekundu vypisovat znak „1“, každé dvě sekundy znak „2“ a jednorázově 4 sekundy po startu programu vypíše znak „3“. Odesláním jakéhokoliv znaku z PC do kontroleru se časovače resetují a znovu spustí. To znamená, že pokud mikrokontroler bude přijímat znaky z PC častěji, než jednou za sekundu, neodešle žádná data. Výjimku bude tvořit přijatý znak „s“, který všechny časovače zastaví.</p>
+
+                    <p>V našem programu si nejprve vytvoříme tři ukazatele na časovače, které budeme v jednom z vláken využívat na práci s nimi.</p>
+                    
+                    <p>Dále vytvoříme callback funkce pro jednorázový a periodický časovač. Periodické časovače budou sdílet jednu callback funkci.</p>
+
+                    <pre>
+                        <code>
+TimerHandle_t periodickyCasovac1 = NULL;
+TimerHandle_t periodickyCasovac2 = NULL;
+TimerHandle_t jednorazovyCasovac = NULL;
+
+static void JednorazovyCallback(TimerHandle_t Casovac)
+{
+    HAL_UART_Transmit(&huart2, "3", 1, 10);
+}
+
+static void PeriodickyCallback(TimerHandle_t Casovac)
+{
+    uint8_t id = pvTimerGetTimerID(Casovac);
+
+    if(id == 1)
+    {
+        HAL_UART_Transmit(&huart2, "1", 1, 10);
+    }
+    else
+    {
+        HAL_UART_Transmit(&huart2, "2", 1, 10);
+    }
+}                        </code>
+                    </pre>
+
+                    <p>V callback funkci periodického časovače odesíláme rozdílný znak na základě toho, jakým časovačem byla funkce volána. Rozlišení bychom mohli provést buď porovnáním adresy ukazatele, nebo, jako v našem případě, pomocí identifikačního čísla časovače. K získání identifikátoru využijeme funkci</p> 
+
+                    <p><b>void *pvTimerGetTimerID(adrersaCasovace)</b>, kde </p>
+
+                    <p><b>adresaCasovace</b> je adresa na časovače, jehož identifikátor chceme získat. <br> </p>
+                    
+                    <p>Funkce vrací ukazatel na void, který můžeme použít na jakýkoliv číselný datový typ.</p>
+
+                    <p>Poté implementujeme uživatelské vlákno, které bude s časovači pracovat. Vlákno při svém vytvoření všechny časovače spustí a nastaví komunikaci UART na příjem jednoho znaku. Vlákno v nekonečné smyčce zastaví časovače v momentě, kdy kontroler přijme znak „s“. Při příjmu jakéhokoliv jiného znaku časovače resetuje (resetování časovače zároveň opět spustí).</p>
+
+                    <pre>
+                        <code>
+static void TaskCasovace( void *pvParameters )
+{
+    uint8_t data = 0U;
+
+    xTimerStart(periodickyCasovac1, pdMS_TO_TICKS(1));
+    xTimerStart(periodickyCasovac2, pdMS_TO_TICKS(1));
+    xTimerStart(jednorazovyCasovac, pdMS_TO_TICKS(1));
+
+    HAL_UART_Receive_IT(&huart2, &data, 1);
+
+    while(1)
+    {
+        // prisel znak na zastaveni casovacu
+        if(data == 's')
+        {
+            xTimerStop(periodickyCasovac1, pdMS_TO_TICKS(1));
+            xTimerStop(periodickyCasovac2, pdMS_TO_TICKS(1));
+            xTimerStop(jednorazovyCasovac, pdMS_TO_TICKS(1));
+
+            HAL_UART_Receive_IT(&huart2, &data, 1);
+            data = 0U;
+        }
+        // prisla jakakoliv jina data
+        else if(data != 0U)
+        {
+            // resetuje periodicke casovace
+            xTimerReset(periodickyCasovac1, pdMS_TO_TICKS(1));
+            xTimerReset(periodickyCasovac2, pdMS_TO_TICKS(1));
+
+            // resetuje jednorazovy casovac
+            xTimerReset(periodickyCasovac2, pdMS_TO_TICKS(1));
+
+            HAL_UART_Receive_IT(&huart2, &data, 1);
+            data = 0U;
+        }
+    }
+}                       </code>
+                    </pre>
+
+                    <p>Vlákno používá funkce na spuštění, zastavení a resetování časovače. Všechny mají stejné vstupní parametry, proto popíšeme pouze funkci na spuštění:
+                    <p><b>BaseType_t xTimerStart(adresaCasovace, pocetCasovychUseku)</b>, kde
+                    <p><b>adresaCasovace</b> je adresa časovače, který chceme spustit, a </p>
+                    <p><b>pocetCasovychUseku</b> je maximální počet časových úseků, po které bude funkci volající vlákno zablokováno, než se zařadí příkaz ke spuštění časovače do fronty. Poté bude vlákno odblokováno.</p>
+                   
+                    <p>Návratová hodnota má hodnoty pdPASS nebo pdFAIL podle toho, zda se v daném maximálním počtu časových úseků povedlo zařadit příkaz do fronty příkazů časovačů.</p>
+                    
+                    <p>Nyní v hlavním programu vytvoříme tři časovače a jedno vlákno.</p>
+
+                    <pre>
+                        <code>
+/* USER CODE BEGIN RTOS_THREADS */
+periodickyCasovac1 = xTimerCreate("Periodicky1", pdMS_TO_TICKS(1000), pdTRUE, 1, PeriodickyCallback);
+
+periodickyCasovac2 = xTimerCreate("Periodicky2", pdMS_TO_TICKS(2000), pdTRUE, 2, PeriodickyCallback);
+
+jednorazovyCasovac = xTimerCreate("Jednorazovy", pdMS_TO_TICKS(4000), pdFALSE, 1, JednorazovyCallback);
+
+BaseType_t status = xTaskCreate(TaskCasovace, "Task casovace", 128, NULL, 1, NULL);
+
+if(status != pdPASS)
+    {
+        HAL_UART_Transmit(&huart2, "Plna pamet", 10, 100);
+
+        while(1);
+    }
+
+/* USER CODE END RTOS_THREADS */
+
+/* Start scheduler */
+osKernelStart();    </code>
+                    </pre>
+
+                    <p>K vytvoření časovače využíváme funkci</p>
+                   
+                    <p><b>TimerHandle_t xTimerCreate(*uzivatelkeJmeno, perioda, autoReload, identifikator, 
+                                        adresaCallbackFunkce)</b>, kde </p>
+                    <p><b>*uzivatelskeJmeno</b> je ukazatel na řetězec s uživatelským jménem, </p>
+                    <p><b>perioda</b> udává počet časových úseků, než dojde k přetečení časovače, </p>
+                    <p><b>autoReload</b> určuje, že bude časovač periodický (vložením hodnoty pdTRUE) či jednorázový (vložením hodnoty pdFALSE), </p>
+                    <p><b>identifikator</b> je identifikátor časovače a </p> 
+                    <p><b>adresaCallbackFunkce</b> je adresa callback funkce, která se zavolá při přetečení časovače.</p>
+
+                    <p>Funkce vrací adresu na vytvořený časovač. Pokud je návratová hodnota NULL, není pro nový časovač místo v paměti.
+                    Periodické časovače našeho programu mají periodu 1000 a 2000 ms a mají rozdílné identifikátory. Jednorázový časovač má periodu 4000 ms. Časovačům jsme posledním argumentem určili, jakou callback funkci mají používat.</p>
+                   
+                    <p>Předtím, než program přeložíme, musíme v konfigurátoru povolit používání časovačů, což provedeme následující změnou:</p>
+
+
+                    <div class="obrazek" style="max-width: 550px;">
+                        <img src="Clanek_2/obrazky/1.png"/>
+                    </div>
+
+                    <p>Je doporučené, aby vlákna časovačů měla nejvyšší možnou prioritu (configTIMER_TASK_PRIORITY). Parametr configTIMER_QUEUE_LENGTH určuje velikost fronty příkazů. Později si ukážeme důvod.</p>
+                    
+                    <p>Textový výstup může vypadat následovně:</p>
+
+                    <div class="obrazek" style="max-width: 500px;">
+                        <img src="Clanek_2/obrazky/2.png"/>
+                    </div>
+
+                    <p>Sekundu po spuštění programu se odešle první znak „1“, po druhé sekundě dva znaky „21“, jelikož přetekly dva časovače zároveň. Po třetí sekundě opět pouze „1“. V bodě (1), který odpovídá čtvrté sekundě běhu programu, přeteče jednorázový časovač. Vypisuje se tedy text „321“. To se po dalších 4 sekundách již neopakuje. Po čtvrté sekundě v bodě (2) odešleme z PC postupně se sekundovým odstupem 3x libovolný znak (v tomto případě 3x „d“). To způsobí třikrát reset všech časovačů. Jelikož je odstup znaků přibližně jedna sekunda, pouze časovač s kratší periodou stíhá přetéct a vypisovat znaky „1“. Čtyři sekundy po posledním resetu jednorázový časovač opět pošle znak „3“. v Bodě (3) PC odešle znak „s“. Od tohoto momentu časovače nefungují a příjem znaků se zastaví. Po nějaké chvíli kontroler přijme libovolný znak, což všechny časovače resetuje a opět spustí. Tento další reset způsobil tři znaky „1“ v řadě. Po 4 sekundách se opět ozve jednorázový časovač. V této ukázce však již naposledy.</p>
+                    
+                    <p>Změňme nyní délku časového úseku běhu vlákna. Místo jedné milisekundy (1 KHz) bude trvat 333 ms (3 Hz). </p>
+
+                    <div class="obrazek" style="max-width: 350px;">
+                        <img src="Clanek_2/obrazky/3.png"/>
+                    </div>
+
+                    <p>Dále přidejme do callback funkce přepínání LED. Konkrétněji do části, která se provede při přetečení periodického časovače 1.</p>
+
+                    <pre>
+                        <code>
+static void PeriodickyCallback(TimerHandle_t Casovac)
+{
+    uint8_t id = pvTimerGetTimerID(Casovac);
+
+    if(id == 1)
+    {
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+
+        HAL_UART_Transmit(&huart2, "1", 1, 10);
+    }
+    else
+    {
+        HAL_UART_Transmit(&huart2, "2", 1, 10);
+    }
+}                        </code>
+                    </pre>
+
+                    <p>Poslední úpravou je změna periody periodického časovače 1 na 1500 ms.</p>
+
+                    <pre>
+                        <code>
+periodickyCasovac1 = xTimerCreate("Periodicky1", pdMS_TO_TICKS(1500), pdTRUE, 1, PeriodickyCallback); </code>
+                    </pre>
+
+                    <p>Po spuštění získáme následující výstupní signál:</p>
+
+                    <div class="obrazek" style="max-width: 700px;">
+                        <img src="Clanek_2/obrazky/4.png"/>
+                    </div>
+
+                    <p>Očekávali jsme přepínání úrovně signálu každých 1500 ms, ale jak na obrázku vidíme, i časovače jsou zatížené rozlišovací schopností. Ta je závislá na délce časového úseku běhu vlákna. Jelikož 1500 a 333 ms nejsou soudělné hodnoty, pomocí volaného makra se čas převede na 4 časové úseky, které tvoří přibližně 1333 ms. Toto je potřeba při programování zohlednit.</p>
+
+                    <p>Nyní pojďme upravit prioritu stínového vlákna. (Stínové vlákno je automaticky vytvořené vlákno běžicí na pozadí a obsluhující události časovačů) Změníme ji na úroveň 0, tedy nižší než má uživatelské vlákno.</p>
+
+                    <div class="obrazek" style="max-width: 350px;">
+                        <img src="Clanek_2/obrazky/5.png"/>
+                    </div>
+
+                    <p>Když program s takovýmto nastavením spustíme, stínové vlákno se nikdy nedostane ke slovu a nespustí se žádná callback funkce časovačů. Lékem je zablokování uživatelského vlákna v jeho nekonečné smyčce alespoň do konce časového úseku. Má to ale háček. Vlákno s vyšší prioritou může svým během zabrat více časových úseků, než se zablokuje. Upravme tedy uživatelské vlákno tak, že na konci iterace smyčky dva úseky pracuje (zpožďovací smyčka) a poté se na jeden úsek zablokuje:</p>
+
+                    <pre>
+                        <code>
+static void TaskCasovace( void *pvParameters )
+{
+    uint8_t data = 0U;
+
+    xTimerStart(periodickyCasovac1, pdMS_TO_TICKS(1));
+    xTimerStart(periodickyCasovac2, pdMS_TO_TICKS(1));
+    xTimerStart(jednorazovyCasovac, pdMS_TO_TICKS(1));
+
+    HAL_UART_Receive_IT(&huart2, &data, 1);
+
+    while(1)
+    {
+        // prisel znak na zastaveni casovacu
+        if(data == 's')
+        {
+            xTimerStop(periodickyCasovac1, pdMS_TO_TICKS(1));
+            xTimerStop(periodickyCasovac2, pdMS_TO_TICKS(1));
+            xTimerStop(jednorazovyCasovac, pdMS_TO_TICKS(1));
+
+            HAL_UART_Receive_IT(&huart2, &data, 1);
+            data = 0U;
+        }
+        // prisla jakakoliv jina data
+        else if(data != 0U)
+        {
+            // resetuje periodicke casovace
+            xTimerReset(periodickyCasovac1, pdMS_TO_TICKS(1));
+            xTimerReset(periodickyCasovac2, pdMS_TO_TICKS(1));
+
+            // resetuje jednorazovy casovac
+            xTimerReset(periodickyCasovac2, pdMS_TO_TICKS(1));
+
+            HAL_UART_Receive_IT(&huart2, &data, 1);
+            data = 0U;
+        }
+
+        // zpozdeni 2 casove useky
+        HAL_Delay(1);
+
+        // zablokuje vlakno do konce useku
+        vTaskDelay(1);
+    }
+}     </code>
+                    </pre>
+
+                    <p>Výstupní signál vypadá takto: (časovým úsekům zleva doprava odpovídají časové hodnoty shora dolů)</p>
+
+                    <div class="obrazek" style="max-width: 750px;">
+                        <img src="Clanek_2/obrazky/6.png"/>
+                    </div>
+
+                    <p>Výstupní signál je velmi neperiodický a chová se podivně. Jeho chování vysvětlí následující graf průběhů:</p>
+
+                    <div class="obrazek" style="max-width: 800px;">
+                        <img src="Clanek_2/obrazky/7.png"/>
+                    </div>
+
+                    <p>Program běží dle očekávání až do bodu (1), kdy dojde k přetečení časovače. Ve vláknu přechodu úseků se odešle příkaz do fronty k obsloužení časovače ve stínovém vláknu. Bohužel je ale nyní aktivní vlákno s vyšší prioritou, a proto se stínové vlákno dostane ke slovu o jeden časový úsek později v bodě (2). Teprve v ten moment se zavolá callback funkce a přepne se stav LED. V bodě (3) shodou okolností dojde k přetečení časovače a zablokovaní vlákna TaskCasovace ve stejný okamžik. Obsluha časovače se tedy provede okamžitě. V bodě (4) dojde k přetečení a konce blokace uživatelského vlákna ve stejný moment, plánovací algoritmus tedy aktivuje uživatelské vlákno. Stínové vlákno s obsluhou časovače nyní musí čekat na běh další dva časové úseky. Průběh ve stejném duchu pokračuje dál.</p>
+                   
+                    <p>Mějme na vědomí, že zpoždění se netýká pouze volání callback funkcí, které jako jediné v tomto příkladu používáme. Stejný problém nastane i u veškerých knihovních funkcí, které pracují s časovači (zapnutí, vypnutí, reset…).</p>
+                    
+                    <p>Udělejme poslední změnu. Uživatelské vlákno nyní bude v aktivním stavu delší dobu, než je perioda časovače. Například 8 časových cyklů. Jak bude vypadat průběh signálu?</p>
+
+                    <div class="obrazek" style="max-width: 700px;">
+                        <img src="Clanek_2/obrazky/8.png"/>
+                    </div>
+
+                    <p>Signál se chová opět dost neočekávaně. 2,66 sekundy se nic neděje. Poté dojde k rychlému probliknutí. Následují další rychlá probliknutí vždy s periodou 3 sekundy. Podívejme se na průběh programu.</p>
+
+                    <div class="obrazek" style="max-width: 800px;">
+                        <img src="Clanek_2/obrazky/9.png"/>
+                    </div>
+
+                    <p>V bodě (1) dojde k přetečení časovače a systémové přerušení pošle do fronty časovače příkaz k provedení obsluhy časovače ve stínovém vláknu. To se ale dostane ke slovu až v bodě (2), kdy proběhne další přetečení. Obsluha časovače a volaní callback funkce tedy proběhne dvakrát. V bodě (3) už jsou ve frontě příkazů k provedení obsluhy 2 záznamy čekající na vyzvednutí. Toto se dále opakuje.</p>
+                    
+                    <p>Při tomto nastavení se jednou za čas ve frontě příkazů časovače nachází dokonce 3 záznamy a callback proběhne třikrát, jak je vidět na tomto průběhu signálu.</p>
+
+                    <div class="obrazek" style="max-width: 600px;">
+                        <img src="Clanek_2/obrazky/10.png"/>
+                    </div>
+
+                    <p>Když by vlákna s vyšší prioritou nepustila ke slovu obsluhu časovače příliš dlouho, může se stát, že se fronta příkazů časovače naplní. V ten moment přejde program do chybové nekonečné smyčky. Velikost paměti pro frontu příkazu časovačů udává parametr TIMER_TASK_STACK_DEPTH.</p> 
+
+                    <div class="obrazek" style="max-width: 350px;">
+                        <img src="Clanek_2/obrazky/11.png"/>
+                    </div>
+
+                    <p>Jak tento příklad ukázal, musíme být velmi obezřetní při práci s časovači, jinak se budou chovat naprosto neočekáváným způsobem.</p>
+
+                    <div class="tlacitko" >
+                        <a href="Clanek_1/Clanek1.rar" download><button>Projekt pro STM32CubeIDE</button></a>
+                    </div>
+
+                    <div class="tlacitko" style="max-width: 175px;">
+                        <a href="../clanky.html"> <img style="scale:80%" src="../obrazky/tlacitka/zpet.png"></a>
+                    </div>
+                </div>
+            </div>    
+        </div>
+
+        <div class="patka">
+            <div class="patka-objekt">
+                <b>Autor: Vojtěch Skřivánek</b>
+            </div>
+            <div class="patka-objekt">
+                <b>VojtechSkrivanek@seznam.cz</b>
+            </div>
+        </div>
+        
+    </body>
+</html>

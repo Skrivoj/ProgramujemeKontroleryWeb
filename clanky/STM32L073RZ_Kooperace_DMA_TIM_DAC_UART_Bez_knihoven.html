@@ -55,17 +55,20 @@
     
     .patka-objekt {
         display: inline-block;
-        min-width: 33%;  
-        font-family: Georgia, 'Times New Roman', Times, serif; font-size: 12px;  
+        min-width: 48%;
+        text-align: center;  
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;  
     }
 
-    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: justify; padding-bottom: 20px;}
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: justify; padding-bottom: 20px; min-width: 300px;}
     .tlacitko   { max-width: 300px; text-align: center; margin: auto; padding-top: 15px; padding-bottom: 15px;}
     .obrazek    { margin: auto;}
     .bunka-obr  { text-align:center; min-width: 100px;}
 
-    p           {font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px}
-    h2          {font-family: Georgia, 'Times New Roman', Times, serif; font-style: italic;}
+    p           {font-family: Arial, Helvetica, sans-serif; font-size: 16px}
+    h2          {font-family: Arial, Helvetica, sans-serif; font-style: italic;}
+    h3          {font-family: Arial, Helvetica, sans-serif; text-decoration: underline; font-style: italic;  font-weight: bold;}
 
     /*div {
         border: solid;
@@ -135,7 +138,7 @@
 
                     <p>Tento návod používá vývojovou desku NUCLEO-L073RZ. Nastavení jsou však shodná pro většinu kontrolerů rodiny STM32L0xx. V návodu nejprve představíme a vytvoříme inicializační funkce periferií. Poté vytvoříme jejich užitné funkce. Nakonec je spojíme v hlavním programu, aby se kontroler choval dle zadání v úvodu článku.</p>
 
-                    <p><u><b>Nastavení periferií</b></u></p>
+                    <h3>Nastavení periferií</h3>
 
                     <p><b>UART</b></p>
 
@@ -170,8 +173,7 @@ void UART_init_DMA()
 
     // povoli USART a prijmani dat
     USART2->CR1 |= (USART_CR1_UE | USART_CR1_RE);
-}
-                        </code>
+}                        </code>
                     </pre>
 
                     <p><b>DMA5</b></p>
@@ -208,8 +210,7 @@ void DMA5_init_UART()
 
     // nastavi DMA kanalu 5 spoustec prijem po USART2
     DMA1_CSELR->CSELR |= (4U << DMA_CSELR_C5S_Pos);
-}
-                        </code>
+}                        </code>
                     </pre>
 
                     <p><b>DAC</b></p>
@@ -238,8 +239,7 @@ void DAC_init_DMA_TIM()
     // nastavi DAC2 spousteni pretecenim TIM2, vyuziti DMA,
     // reakci na spoustec (ne SW) a zapne jej
     DAC->CR |= (DAC_CR_DMAEN2 | DAC_CR_TSEL2_2 | DAC_CR_TEN2 | DAC_CR_EN2);
-}
-                        </code>
+}                        </code>
                     </pre>
 
                     <p><b>DMA4</b></p>
@@ -269,8 +269,7 @@ void DMA4_init_DAC()
 
     // nastavi DMA kanalu 4 spoustec DAC kanal 2
     DMA1_CSELR->CSELR |= (15U << DMA_CSELR_C4S_Pos);
-}
-                        </code>
+}                        </code>
                     </pre>
 
                     <p><b>TIM</b></p>
@@ -292,11 +291,10 @@ void TIM_init_Udalost()
 
     // nastavi udpate udalost pri preteceni
     TIM2->CR2 |= TIM_CR2_MMS_1;
-}
-                        </code>
+}                        </code>
                     </pre>
 
-                    <p><u><b>Funkce periferií</b></u></p>
+                    <h3>Funkce periferií</h3>
 
                     <p><b>DMA5 - start</b></p>
 
@@ -314,8 +312,7 @@ void DMA5_start(void* Data, uint8_t delka)
 
     // spusti prenos
     DMA1_Channel5->CCR |= DMA_CCR_EN;
-}
-                        </code>
+}                        </code>
                     </pre>
 
                     <p><b>DMA4 - start</b></p>
@@ -334,8 +331,7 @@ void DMA4_start(void* Data, uint8_t delka)
 
     // spusti prenos
     DMA1_Channel4->CCR |= DMA_CCR_EN;
-}
-                        </code>
+}                        </code>
                     </pre>
 
                     <p><b>TIM - start</b></p>
@@ -351,11 +347,10 @@ void TIM_start()
 {
     // zapne TIM2
     TIM2->CR1 |= TIM_CR1_CEN;
-}
-                        </code>
+}                        </code>
                     </pre>
 
-                    <p><b><u>Tvorba programu</u></b></p>
+                    <h3>Tvorba programu</h3>
                     
                     <p>Tento program má velké množství inicializací a funkcí. Je to způsobeno tím, že na jednom úkolu automaticky spolupracuje celkem 5 periferií – UART2, DAC2, DMA4, DMA5 a TIM2.</p>
 
@@ -389,15 +384,14 @@ int main(void)
     TIM_start();
 
     while(1);
-}
-                        </code>
+}                        </code>
                     </pre>
 
                     <p>Po překladu, nahrání a puštění programu vidíme, jak LED dvakrát za sekundu změní svůj jas. Pokud z PC pošleme do kontroleru jakoukoliv 8bitovou hodnotu, bude jí nahrazen první prvek v poli dat, které je zdrojem dat pro DAC2. Další hodnota nahradí druhý prvek a tak dále. (Šestá hodnota nahradí opět první prvek.)</p>
 
                     <p>Toho všeho je dosaženo bez jakéhokoliv přerušení či kódu v nekonečné smyčce.</p>
 
-                    <p><u><b>Porovnání</b></u></p>
+                    <h3>Porovnání</h3>
 
                     <p>Jak již bylo zmíněno, využívá tento ukázkový program relativně dost periferií. Z toho samozřejmě vyplývá, že použití knihoven zabere mnoho paměťového prostoru. Úspora jejich eliminací je značná.</p>
 
@@ -419,15 +413,11 @@ int main(void)
         </div>
 
         <div class="patka">
-            <div class="patka-objekt" style="text-align: left;">
+            <div class="patka-objekt">
                 <b>Autor: Vojtěch Skřivánek</b>
             </div>
-            <div class="patka-objekt" style="text-align: center;">
-                <b>Kontakt: VojtechSkrivanek@seznam.cz</b>
-            </div>
-            <div class="patka-objekt" style="text-align: right;">
-                <b>Počet návštěvníků: </b>
-                <img style="height: auto; width: 65px; vertical-align: middle;" src="https://www.webfreecounter.com/hit.php?id=genqxaa&nd=7&style=3" border="0">
+            <div class="patka-objekt">
+                <b>VojtechSkrivanek@seznam.cz</b>
             </div>
         </div>
         
