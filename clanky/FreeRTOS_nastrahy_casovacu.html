@@ -170,7 +170,7 @@ static void PeriodickyCallback(TimerHandle_t Casovac)
 
                     <p>V callback funkci periodického časovače odesíláme rozdílný znak na základě toho, jakým časovačem byla funkce volána. Rozlišení bychom mohli provést buď porovnáním adresy ukazatele, nebo, jako v našem případě, pomocí identifikačního čísla časovače. K získání identifikátoru využijeme funkci</p> 
 
-                    <p><b>void *pvTimerGetTimerID(adrersaCasovace)</b>, kde </p>
+                    <p><b>void *pvTimerGetTimerID(adresaCasovace)</b>, kde </p>
 
                     <p><b>adresaCasovace</b> je adresa na časovače, jehož identifikátor chceme získat. <br> </p>
                     
@@ -424,7 +424,7 @@ static void TaskCasovace( void *pvParameters )
                     <p>Jak tento příklad ukázal, musíme být velmi obezřetní při práci s časovači, jinak se budou chovat naprosto neočekáváným způsobem.</p>
 
                     <div class="tlacitko" >
-                        <a href="Clanek_1/Clanek1.rar" download><button>Projekt pro STM32CubeIDE</button></a>
+                        <a href="Clanek_2/Clanek2.rar" download><button>Projekt pro STM32CubeIDE</button></a>
                     </div>
 
                     <div class="tlacitko" style="max-width: 175px;">
