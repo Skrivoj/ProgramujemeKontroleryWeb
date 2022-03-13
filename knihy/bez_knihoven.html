@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Programujeme Kontrolery</title>
+    </head>
+
+    <style>
+
+    .obal { 
+        position: relative;
+        text-align: center;
+        max-width: 1200px;
+        min-width: 300px;
+        min-height: 95vh;
+        margin: 0 auto;        
+        margin-bottom: -0px;
+    }
+
+    .hlavicka {
+        text-align: center;
+        margin:0 auto;
+    }
+    
+    .menu { 
+        text-align: center;
+        max-height: 100px;
+    }
+    
+    .menu-tlac {
+        max-width: 30%;
+        min-width: 100px;
+        display: inline-block;        
+        height: 100%;           
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .obsah {
+        display: flex; 
+        min-width: 300px;
+        max-width: 1000px;
+        margin: auto;
+        padding-top: 35px;
+    }
+
+    .patka {
+        position: relative; 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        height: 30px;
+    }
+    
+    .patka-objekt {
+        display: inline-block;
+        min-width: 48%;  
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;  
+    }
+
+
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: justify;}
+    .tlacitko   { max-width: 45%; min-width: 100px; display: inline-block; padding-top: 20px; padding-bottom: 20px; text-align: center;}
+    
+    p           {font-family: Arial, Helvetica, sans-serif; font-size: 16px}
+    h2          {font-family: Arial, Helvetica, sans-serif; font-style: italic;}
+
+    /*div {
+        border: solid;
+    }*/
+
+    body {
+        background-attachment: fixed; 
+        background-image: linear-gradient(150deg, rgb(22, 228, 243), white, white);
+    }
+
+    img {
+        width: 100%;
+    }
+
+    a {
+        cursor: pointer; 
+        max-width: 100%; 
+        max-height: 100%; 
+        min-width: 10%; 
+        min-height: 10%;
+    }
+
+    * {-moz-box-sizing: border-box; box-sizing: border-box; -moz-box-pack:center; -moz-box-align:center;} /* pocitani marginu a paddingu jako v Exploreru */
+    </style>
+
+    <body>
+        <div class="obal">
+            <div class="hlavicka"><img src="../obrazky/obrazky/logo.png">
+            </div>
+            <div class="menu">
+                <div class="menu-tlac">
+                    <a href="../index.html"><img src="../obrazky/tlacitka/uvod.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="../knihy.html"><img src="../obrazky/tlacitka/knihy.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="../clanky.html"><img src="../obrazky/tlacitka/clanky.png"></a>
+                </div> 
+            </div>
+
+            <div class="obsah" >
+                <div style="width: 100%;">
+                    <table height=100% width=100%>
+                        <tr>
+                            <td width=33% style="text-align:right">
+                                <img style="max-width:350px" style="padding-left: 10%; padding-right: 10px;" src="../obrazky/obrazky/obalka2.PNG">
+                            </td>     
+                            <td>
+                                <div class="text">
+                                    <h2>
+                                        Programujeme STM32 bez knihoven
+                                    </h2>
+                                    <p>
+                                        Tato kniha volně navazuje na titul "Programujeme STM32: zdolejte jednočipy profesionálů". Je vhodná pro všechny, kteří již znají teorii základních periferií mikrokontrolerů STM32, umí je používat za pomoci knihovních funkcí, ale chtějí si prohloubit znalost jejich ovládání. Je určena všem, kteří chtějí psát vlastní rychlý, úsporný, efektivní a aplikačně specifický kód.
+                                    </p> 
+                                    <p>
+                                        V této knize se oprostíme od knihoven připravených firmou ST Microelectronics, které umožňují snadnou obsluhu periferií bez hlubších znalostí jejich řízení, ale za cenu pomalého a objemného kódu. Kniha obsahuje totožné nebo velmi podobné příklady jako výše zmíněný titul, ale bez použití knihoven. Čtenář je tak seznámen s prací se speciálními funkčními registry periferií, jejichž nastavení je nutné k jejich správnému chodu a užívání. Na konci každého příkladu je diskutován rozdíl mezi řešením bez knihoven a s nimi.
+                                    </p>
+                                    <p>
+                                         Pokud chcete lépe pochopit funkci a obsluhu periferií mikrokontrolerů STM32 a psát rychlý, úsporný, snadno testovatelný, zkrátka optimální kód, tato kniha je pro Vás ideálním výchozím bodem.
+                                    </p>
+                                    <p><b><i><a href="../priklady/ProgramujemeSTM32_BezKnihoven.rar" download>Projekty obsažené v této knize jsou ke stažení zde</a></i></b></p>
+                                    <p><b><i><a href="../dokumenty/ProgramujemeSTM32_errata.txt" download>Errata k této knize</a></i></b></p>
+                                    <p><b>Knihu lze zakoupit za sníženou cenu při objednávce na mailu VojtechSkrivanek@seznam.cz</b></p>
+                                    <p>nebo například na těchto e-shopech:</p>
+                                    <p><b><i><a href="https://www.alza.cz/media/programujeme-stm32-d7058928.htm" target="_blank">Alza.cz</a></i></b></p>
+                                    <p><b><i><a href="https://www.knihydobrovsky.cz/e-kniha/programujeme-stm32-428000624" target="_blank">KnihyDobrovsky.cz</a></i></b></p>
+                                    <p><b><i><a href="https://knihy.abz.cz/prodej/programujeme-stm32-bez-knihoven" target="_blank">ABZ.cz</a></i></b></p>
+                                    <p><b><i><a href="https://play.google.com/store/books/details/Vojt%C4%9Bch_Sk%C5%99iv%C3%A1nek_Programujeme_STM32?id=g9xiEAAAQBAJ" target="_blank">Google.com</a></i></b></p>
+                                    <p><b><i><a href="https://www.eknihovna.cz/programujeme-stm32-2/" target="_blank">eKnihovna.cz</a></i></b></p>
+                                    <p><b><i><a href="https://www.ebux.cz/index.php?bk=335675&id_secat=41" target="_blank">ebux.cz</a></i></b></p>
+                                </div>
+                                <div class="tlacitko" >
+                                    <a href="../dokumenty/ProgramujemeSTM32_BezKnihoven_ukazka.pdf" download><img style="scale:80%" src="../obrazky/tlacitka/ukazka.png"></a>
+                                </div>
+                                <div class="tlacitko">
+                                    <a href="../knihy.html"> <img style="scale:80%" src="../obrazky/tlacitka/zpet.png"></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>    
+        </div>
+
+        <div class="patka">
+            <div class="patka-objekt">
+                <b>Autor: Vojtěch Skřivánek</b>
+            </div>
+            <div class="patka-objekt">
+                <b>VojtechSkrivanek@seznam.cz</b>
+            </div>
+        </div>
+        
+    </body>
+</html>
