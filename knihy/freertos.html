@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Programujeme Kontrolery</title>
+    </head>
+
+    <style>
+
+    .obal { 
+        position: relative;
+        text-align: center;
+        max-width: 1200px;
+        min-width: 300px;
+        min-height: 95vh;
+        margin: 0 auto;        
+        margin-bottom: -0px;
+    }
+
+    .hlavicka {
+        text-align: center;
+        margin:0 auto;
+    }
+    
+    .menu { 
+        text-align: center;
+        max-height: 100px;
+    }
+    
+    .menu-tlac {
+        max-width: 30%;
+        min-width: 100px;
+        display: inline-block;        
+        height: 100%;           
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .obsah {
+        display: flex; 
+        min-width: 300px;
+        max-width: 1000px;
+        margin: auto;
+        padding-top: 35px;
+    }
+
+    .patka {
+        position: relative; 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        height: 30px;
+    }
+    
+    .patka-objekt {
+        display: inline-block;
+        min-width: 48%;  
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;  
+    }
+
+
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: justify;}
+    .tlacitko   { max-width: 45%; min-width: 100px; display: inline-block; padding-top: 20px; padding-bottom: 20px; text-align: center;}
+    
+    p           {font-family: Arial, Helvetica, sans-serif; font-size: 16px}
+    h2          {font-family: Arial, Helvetica, sans-serif; font-style: italic;}
+
+    /*div {
+        border: solid;
+    }*/
+
+    body {
+        background-attachment: fixed; 
+        background-image: linear-gradient(150deg, rgb(22, 228, 243), white, white);
+    }
+
+    img {
+        width: 100%;
+    }
+
+    a {
+        cursor: pointer; 
+        max-width: 100%; 
+        max-height: 100%; 
+        min-width: 10%; 
+        min-height: 10%;
+    }
+
+    * {-moz-box-sizing: border-box; box-sizing: border-box; -moz-box-pack:center; -moz-box-align:center;} /* pocitani marginu a paddingu jako v Exploreru */
+    </style>
+
+    <body>
+        <div class="obal">
+            <div class="hlavicka"><img src="../obrazky/obrazky/logo.png">
+            </div>
+            <div class="menu">
+                <div class="menu-tlac">
+                    <a href="../index.html"><img src="../obrazky/tlacitka/uvod.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="../knihy.html"><img src="../obrazky/tlacitka/knihy.png"></a>
+                </div>
+                <div class="menu-tlac">
+                    <a href="../clanky.html"><img src="../obrazky/tlacitka/clanky.png"></a>
+                </div> 
+            </div>
+
+            <div class="obsah" >
+                <div style="width: 100%;">
+                    <table height=100% width=100%>
+                        <tr>
+                            <td width=33% style="text-align:right">
+                                <img style="max-width:350px" style="padding-left: 10%; padding-right: 10px;" src="../obrazky/obrazky/obalka4.PNG">
+                            </td>     
+                            <td>
+                                <div class="text">
+                                    <h2>
+                                        Používáme FreeRTOS na mikrokontroleru STM32
+                                    </h2>
+                                    <p>
+                                        Při tvorbě rozsáhlých programů, které obsahují velké množství procesů, se můžeme setkat s potřebou vykonávat některé procesy paralelně. To však není na jednojádrových mikrokontrolerech možné. Částečné řešení však nabízí použití operačního systému. Ten umožní programátorovi rozdělení úloh programu do vláken, která se dle nastaveného schématu střídají v běhu. A právě o jednom z nejrozšířenějších operačních systémů – FreeRTOS - pojednává tato kniha.
+                                    </p>
+                                    <p>
+                                        FreeRTOS je bezplatný operační systém určený pro vestavěné systémy. Kromě správy vláken nabízí i velké množství nástrojů pro jejich časování, synchronizaci a předávání dat mezi nimi. V této knize se seznámíme s těmito nástroji a ukážeme si jejich použití na praktických příkladech. Pomocí občas nečekaného chování příkladů odhalíme překvapivé vlastnosti některých nástrojů, se kterými musí programátor při jejich použití počítat k dosažení kýženého výsledku.
+                                    </p>
+                                    <p>
+                                        Byť se tato kniha zabývá operačním systémem FreeRTOS, čtenář získá obecnou znalost o fungování většiny operačních systémů určených pro vestavěné systémy, které velice často používají podobné základní nástroje.
+                                    </p>
+                                    <p>
+                                        Pro tvorbu příkladů se od čtenáře očekává alespoň základní znalost problematiky programování mikrokontrolerů STM32, kterou pokrývají knihy série „Programujeme STM32“. Příklady jsou však koncipovány tak, aby byly závislé na platformě co možná nejméně.
+                                    </p>
+
+                                    <b><i><a href="../priklady/Pouzivame_FreeRTOS.rar" download>Projekty obsažené v této knize jsou ke stažení zde</a></i></b>
+                                    <p><b>Knihu lze zakoupit za sníženou cenu při objednávce na mailu VojtechSkrivanek@seznam.cz</b></p>
+                                    <p>nebo například na těchto e-shopech: bude doplněno</p>
+                                    <!--<p><b><i><a href="https://www.alza.cz/media/programujeme-stm32-nizkoprikonove-aplikace-nizkoprikonove-aplikace-d7423389.htm" target="_blank">Alza.cz</a></i></b></p>
+                                    <p><b><i><a href="https://www.knihydobrovsky.cz/e-kniha/programujeme-stm32-nizkoprikonove-aplikace-nizkoprikonove-aplikace-482542223" target="_blank">KnihyDobrovsky.cz</a></i></b></p>
+                                    <p><b><i><a href="https://knihy.abz.cz/prodej/programujeme-stm32-nizkoprikonove-aplikace-nizkoprikonove-aplikace-nizkoprikonove-aplikace" target="_blank">ABZ.cz</a></i></b></p>
+                                    <p><b><i><a href="https://www.kosmas.cz/knihy/514568/programujeme-stm32-nizkoprikonove-aplikace/" target="_blank">Kosmas.cz</a></i></b></p>
+                                    <p><b><i><a href="https://www.megaknihy.cz/odborna-naucna/3652968-programujeme-stm32-nizkoprikonove-aplikace-nizkoprikonove-aplikace.html" target="_blank">Megaknihy.cz</a></i></b></p>
+                                    <p><b><i><a href="https://www.eknihovna.cz/programujeme-stm32-nizkoprikonove-aplikace-nizkoprikonove-aplikace/" target="_blank">eKnihovna.cz</a></i></b></p>
+                                    <p><b><i><a href="https://www.jenknihy.cz/a/programujeme-stm32-nizkoprikonove-aplikace-vojtech-skrivanek/187039" target="_blank">Jenknihy.cz</a></i></b></p>                                    
+                                    -->
+                                </div>
+                                <div class="tlacitko" >
+                                    <a href="../dokumenty/Pouzivame_FreeRTOS_ukazka.pdf" download><img style="scale:80%" src="../obrazky/tlacitka/ukazka.png"></a>
+                                </div>
+                                <div class="tlacitko">
+                                    <a href="../knihy.html"> <img style="scale:80%" src="../obrazky/tlacitka/zpet.png"></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>    
+        </div>
+
+        <div class="patka">
+            <div class="patka-objekt">
+                <b>Autor: Vojtěch Skřivánek</b>
+            </div>
+            <div class="patka-objekt">
+                <b>VojtechSkrivanek@seznam.cz</b>
+            </div>
+        </div>
+        
+    </body>
+</html>
