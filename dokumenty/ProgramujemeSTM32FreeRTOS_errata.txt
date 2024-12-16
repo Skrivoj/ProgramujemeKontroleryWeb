@@ -1,0 +1,11 @@
+- V kapitole 4.4.1 (Příklad 6) 	- na konci prvního odstavce - Vlákno1 vytvoří Vlákno2 s prioritou 2. 
+
+- Kapitola 4.5.1 (Příklad 7) 	- obsahuje duplicitní odstavec.
+
+- Kapitola 5.1.1 (Příklad 9) 	- program (i všechny následující využívající časovače) musí obsahovat #include "timers.h".
+
+- Kaptiola 5.1.1 (Příklad 9) 	- v kódu na straně 51 je špatný ukazatel ve funkci okomentované jako //resetuje jednorazovy casovac.
+				  Funkce má používat ukazatel jednorazovyCasovac.
+
+- Kapitola 7.2.1 (Příklad 14)	- v odstavci v první závorce má být "hodnota 0" namísto "hodnota 10" a ve druhé závorce má být "hodnota
+				  1" namísto "hodnota 0".
