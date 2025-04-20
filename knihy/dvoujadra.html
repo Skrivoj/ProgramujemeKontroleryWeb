@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Programujeme Kontrolery</title>
+    </head>
+
+    <style>
+
+    .obal { 
+        position: relative;
+        text-align: center;
+        max-width: 1200px;
+        min-width: 300px;
+        min-height: 95vh;
+        margin: 0 auto;        
+        margin-bottom: -0px;
+    }
+
+    .hlavicka {
+        text-align: center;
+        margin:0 auto;
+    }
+    
+    .menu { 
+        text-align: center;
+        max-height: 100px;
+    }
+    
+    .menu-tlac {
+        max-width: 30%;
+        min-width: 100px;
+        display: inline-block;        
+        height: 100%;           
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .obsah {
+        display: flex; 
+        min-width: 300px;
+        max-width: 1000px;
+        margin: auto;
+        padding-top: 35px;
+    }
+
+    .patka {
+        position: relative; 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        height: 30px;
+    }
+    
+    .patka-objekt {
+        display: inline-block;
+        min-width: 48%;  
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;  
+    }
+
+
+    .text       { top: 0px; padding-left: 5%; padding-right: 5%; text-align: justify;}
+    .tlacitko   { max-width: 45%; min-width: 100px; display: inline-block; padding-top: 20px; padding-bottom: 20px; text-align: center;}
+    
+    p           {font-family: Arial, Helvetica, sans-serif; font-size: 16px}
+    h2          {font-family: Arial, Helvetica, sans-serif; font-style: italic;}
+
+    /*div {
+        border: solid;
+    }*/
+
+    body {
+        background-attachment: fixed; 
+        background-image: linear-gradient(150deg, rgb(22, 228, 243), white, white);
+    }
+
+    img {
+        width: 100%;
+    }
+
+    a {
+        cursor: pointer; 
+        max-width: 100%; 
+        max-height: 100%; 
+        min-width: 10%; 
+        min-height: 10%;
+    }
+
+    * {-moz-box-sizing: border-box; box-sizing: border-box; -moz-box-pack:center; -moz-box-align:center;} /* pocitani marginu a paddingu jako v Exploreru */
+    </style>
+
+    <body>
+        <div class="obal">
+            <div class="hlavicka"><img src="../obrazky/obrazky/logo.png">
+            </div>
+
+            <div class="obsah" >
+                <div style="width: 100%;">
+                    <table height=100% width=100%>
+                        <tr>
+                            <td width=33% style="text-align:right">
+                                <img style="max-width:350px" style="padding-left: 10%; padding-right: 10px;" src="../obrazky/obrazky/obalka5.PNG">
+                            </td>     
+                            <td>
+                                <div class="text">
+                                    <h2>
+                                        Programujeme dvoujádrové kontrolery
+                                    </h2>
+                                    <p>
+                                        V dnešním světě jsou požadavky na výkon elektronických zařízení stále vyšší. Důvody jsou například zvyšující se standardy zákazníků či integrace umělé inteligence. Proto se na trhu stále častěji objevují kontrolery, které mají více než jednu procesorovou jednotku.
+									</p>
+									<p>
+										Jelikož zatím nejsou dvoujádrové kontrolery tak hojně užívány, může být náročné získat o nich dostatek informací z volně dostupných zdrojů. Proto se může například i pouhé založení projektu stát náročným úkolem.     
+									</p>
+									<p>
+										Tato kniha si klade za cíl provést čtenáře od založení projektu, přes jeho tvorbu, až po ladění, tak, aby nemusel dohledávat další informace.
+									</p>
+									<p>
+										Kniha je zaměřena na využití běžně dostupných dvoujádrových kontrolerů, které největší výrobci nabízí na trhu. Čtenář se dozví, jakou má daný kontroler architekturu, jak v jeho vývojovém prostředí správně založit projekt a jak jej naprogramovat. Především ale kniha popisuje, jaké prostředky meziprocesorové komunikace kontroler nabízí.
+									</p>
+									<p>
+										Každá kapitola obsahuje stručný popis možností meziprocesorové komunikace daného kontroleru. Dále jsou tyto možnosti ukázány prakticky na jednoduchých příkladech.
+									</p>
+									<p>
+										Účelem knihy není předání obecných pouček a zásad programování vícejádrových kontrolerů, ale konkrétní integrace a využití periferií meziprocesorové komunikace dvoujádrových kontrolerů, které se u jednotlivých výrobců často velmi liší.
+									</p>
+									<p>
+										Čtenář si přečtením této knihy udělá představu o tom, jak jednotliví výrobci přistupují k meziprocesorové komunikaci, jaké prostředky meziprocesorové komunikace jednotlivé kontrolery nabízí a jak snadné nebo naopak obtížné je s těmito kontrolery a jejich prostředky pracovat.
+									</p>
+                                    <b><i><a href="../priklady/Dvoujadra_INF_MCH.rar" download>Projekty obsažené v této knize jsou ke stažení zde</a> a <a href="../priklady/Dvoujadra_NXP_STM_TI.rar" download>zde</a></i></b> 
+                                    <p><b>Knihu lze zakoupit za sníženou cenu při objednávce na mailu VojtechSkrivanek@seznam.cz</b></p>
+                                    <p>nebo například na těchto e-shopech:</p>
+                                    <p><b><i><a href="https://www.alza.cz/media/programujeme-stm32-d7058927.htm?o=2" target="_blank">Alza.cz</a></i></b></p>                                  
+                                </div>
+                                <div class="tlacitko" >
+                                    <a href="../dokumenty/Dvoujadra_ukazka.pdf" download><img style="scale:80%" src="../obrazky/tlacitka/ukazka.png"></a>
+                                </div>
+                                <div class="tlacitko">
+                                    <a href="../index.html"> <img style="scale:80%" src="../obrazky/tlacitka/zpet.png"></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>    
+        </div>
+
+        <div class="patka">
+            <div class="patka-objekt">
+                <b>Autor: Vojtěch Skřivánek</b>
+            </div>
+            <div class="patka-objekt">
+                <b>VojtechSkrivanek@seznam.cz</b>
+            </div>
+        </div>
+        
+    </body>
+</html>
